@@ -29,7 +29,7 @@ A = 3
 S = 27
 B = 1
 age = 0
-fed = M
+fed = 0
 population = [[M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed], 
               [M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed],
               [M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed],
@@ -191,8 +191,8 @@ while True:
 
     #Dead creatures converted to food.
     for x in range(deaths):
-        bonus_food = random.randint(0, 9)
-        if bonus_food == 3:
+        bonus_food = random.randint(0, 19)
+        if bonus_food == 0:
             food += 1
     
     #Resets
