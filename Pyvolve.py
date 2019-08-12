@@ -43,8 +43,6 @@ generation = 0
 food = 0
 deaths = 0
 births = 0
-total_deaths = 0
-total_births = 0
 fpg_cap = 10000
 Avr_M = 0
 Avr_R = 0
@@ -214,7 +212,5 @@ while True:
     if display_pop_genome == True:
         if generation %10 == 0:
             line(population)
-    total_deaths += deaths
-    total_births += births
     births = 0
     deaths = 0
