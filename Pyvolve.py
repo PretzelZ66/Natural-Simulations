@@ -131,6 +131,7 @@ while True:
     
     #Generation of offspring
     Completed = 0
+    Past_completed = 0
     breedable1 = []
     breedable2 = []
     
@@ -145,9 +146,11 @@ while True:
         while breedable1 == []:
             if Completed >= len(population):
                 break
-            if population[Completed][7] >= population[Completed][6]:
+            if population[Completed][7] >= population[Completed][6] and population[Completed][9] == 0:
                 breedable1 = population[Completed]
+                Past_completed = Completed
             Completed += 1
+        
         if Completed >= (done_percentage * 0.25) and p_3 == 0:
             print("   25%")
             p_3 = 1
@@ -159,13 +162,15 @@ while True:
             p_1 = 1
         if Completed >= len(population):
                 break
-        Completed += 1
+        
         while breedable2 == []:
             if Completed >= len(population):
                 break
-            if population[Completed][7] >= population[Completed][6]:
+            if population[Completed][7] >= population[Completed][6] and population[Completed][9] == 0:
                 breedable2 = population[Completed]
+                break
             Completed += 1
+        
         if Completed >= (done_percentage * 0.25) and p_3 == 0:
             print("   25%")
             p_3 = 1
@@ -221,6 +226,13 @@ while True:
             baby = []
             litter += 1
             births += 1
+        F_Added = random.randint(1, 2)
+        population[Completed][9] = (F_Added + population[Completed][10])
+        population[Past_completed][9] = (F_Added + population[Past_completed][10])
+        population[Completed][10] += 1
+        population[Past_completed][10] += 1
+        
+        Completed += 1
         
     #aging of population
     age_check = 0
