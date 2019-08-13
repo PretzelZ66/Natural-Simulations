@@ -77,7 +77,7 @@ while True:
         fpg_cap -= 1000
         if fpg_cap < 5000:
             fpg_cap = 5000
-        elif foodupdown == 1:
+    elif foodupdown == 1:
             fpg_cap += 1000
     
     #Fatigue down
