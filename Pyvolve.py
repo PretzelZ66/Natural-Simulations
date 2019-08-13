@@ -67,6 +67,13 @@ line('~~SIMULATION PARAMETERS HAVE BEEN SET~~')
 while True:
     random.shuffle(population)
     food += random.randint(5000, fpg_cap)
+    foodupdown = random.randint(-1, 1)
+    if foodupdown == -1:
+        fpg_cap -= 1000
+        if fpg_cap < 5000:
+            fpg_cap = 5000
+        elif foodupdown == 1:
+            fpg_cap += 1000
     
     #feeding
     food_check = 0
@@ -148,7 +155,6 @@ while True:
                     baby[6] = 0
             baby.append(age)
             baby.append(fed)
-            baby[8] = baby[0]
             infant_death_yesno = random.randint(1, 100)
             if infant_death_yesno > baby[3]:
                 offspring.append(baby)
