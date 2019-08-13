@@ -30,10 +30,12 @@ S = 27
 B = 1
 age = 0
 fed = 0
-population = [[M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed], 
-              [M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed],
-              [M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed], [M, R, T, D, A, S, B, age, fed],
-              [M, R, T, D, A, S, B, age, fed]]
+fatigue = 0 
+b_c = 0 #birth count
+population = [[M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c], 
+              [M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c],
+              [M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c],
+              [M, R, T, D, A, S, B, age, fed, fatigue, b_c]]
 offspring = []
 breedable = []
 average_genome = []
@@ -65,7 +67,10 @@ else:
 line('~~SIMULATION PARAMETERS HAVE BEEN SET~~')
 
 while True:
+    pause(1)
     random.shuffle(population)
+    
+    #food changing
     food += random.randint(5000, fpg_cap)
     foodupdown = random.randint(-1, 1)
     if foodupdown == -1:
@@ -74,6 +79,13 @@ while True:
             fpg_cap = 5000
         elif foodupdown == 1:
             fpg_cap += 1000
+    
+    #Fatigue down
+    fatigue_check = 0
+    for x in range(len(population)):
+        if population[fatigue_check][9] > 0:
+            population[fatigue_check][9] -= 1
+        fatigue_check += 1
     
     #feeding
     food_check = 0
@@ -118,29 +130,71 @@ while True:
     average_genome = [Avr_M, Avr_R, Avr_T, Avr_D, Avr_A, Avr_S, Avr_B]
     
     #Generation of offspring
-    breedable.extend(list(filter(lambda item: item[7] >= item[6], population)))
+    Completed = 0
+    breedable1 = []
+    breedable2 = []
     
-    random.shuffle(breedable)
-    
-    if len(breedable) % 2 == 1:
-        del breedable[0]
-    
-    done_percentage = len(breedable)
+    done_percentage = len(population)
     p_1 = 0
     p_2 = 0
     p_3 = 0
     
-    while len(breedable) != 0:
-        if breedable[1][1] > breedable[0][1]:
-            litter_cap = random.randint(breedable[0][1], breedable[1][1])
-        elif breedable[0][1] > breedable[1][1]:
-            litter_cap = random.randint(breedable[1][1], breedable[0][1])
-        elif breedable[0][1] == breedable[1][1]:
-            litter_cap = random.randint(breedable[0][1], breedable[1][1]+1)
+    while len(population) != Completed:
+        breedable1 = []
+        breedable2 = []
+        while breedable1 == []:
+            if Completed >= len(population):
+                break
+            if population[Completed][7] >= population[Completed][6]:
+                breedable1 = population[Completed]
+            Completed += 1
+        if Completed >= (done_percentage * 0.25) and p_3 == 0:
+            print("   25%")
+            p_3 = 1
+        elif Completed >= (done_percentage * 0.50) and p_2 == 0:
+            print("   50%")
+            p_2 = 1
+        elif Completed >= (done_percentage * 0.75) and p_1 == 0:
+            print("   75%")
+            p_1 = 1
+        if Completed >= len(population):
+                break
+        Completed += 1
+        while breedable2 == []:
+            if Completed >= len(population):
+                break
+            if population[Completed][7] >= population[Completed][6]:
+                breedable2 = population[Completed]
+            Completed += 1
+        if Completed >= (done_percentage * 0.25) and p_3 == 0:
+            print("   25%")
+            p_3 = 1
+        elif Completed >= (done_percentage * 0.50) and p_2 == 0:
+            print("   50%")
+            p_2 = 1
+        elif Completed >= (done_percentage * 0.75) and p_1 == 0:
+            print("   75%")
+            p_1 = 1
+        if Completed >= len(population):
+            break
+        
+        if breedable2[1] > breedable1[1]:
+            litter_cap = random.randint(breedable1[1], breedable2[1])
+        elif breedable1[1] > breedable2[1]:
+            litter_cap = random.randint(breedable2[1], breedable1[1])
+        elif breedable1[1] == breedable2[1]:
+            litter_cap = random.randint(breedable1[1], breedable2[1]+1)
         litter = 0
+        
         while litter != litter_cap:
             baby = []
-            baby = [breedable[random.randint(0, 1)][i] for i in range(7)]
+            for i in range(7):
+                baby_inherit = random.randint(0, 1)
+                if baby_inherit == 0:
+                    baby.append(breedable1[i])
+                else:
+                    baby.append(breedable2[i])
+            
             mutationyesno = random.randint(1, 1000)
             if mutationyesno <= baby[5]:
                 stat = random.randint(0, 6)
@@ -149,12 +203,16 @@ while True:
                     baby[stat] += 1
                 elif change == 1:
                     baby[stat] -= 1
+                
                 if baby[4] == 0:
                     baby[4] = 1
                 if baby[6] == -1:
                     baby[6] = 0
             baby.append(age)
             baby.append(fed)
+            baby.append(fatigue)
+            baby.append(b_c)
+            
             infant_death_yesno = random.randint(1, 100)
             if infant_death_yesno > baby[3]:
                 offspring.append(baby)
@@ -163,21 +221,6 @@ while True:
             baby = []
             litter += 1
             births += 1
-        del breedable[0]
-        del breedable[0]
-
-        if len(breedable) >= (done_percentage * 0.75):
-            if p_3 == 0:
-                print("   25%")
-                p_3 = 1
-        elif len(breedable) >= (done_percentage * 0.50):
-            if p_2 == 0:
-                print("   50%")
-                p_2 = 1
-        elif len(breedable) >= (done_percentage * 0.25):
-            if p_1 == 0:
-                print("   75%")
-                p_1 = 1
         
     #aging of population
     age_check = 0
@@ -190,6 +233,7 @@ while True:
     for x in range(len(population)):
         population[hungry_check][8] -= 1
         hungry_check += 1
+    
     #Offspring added to population
     population.extend(offspring)
 
@@ -203,7 +247,6 @@ while True:
     offspring = []
     breedable = []
     generation += 1
-    pause(1)
     
     #Facts
     print('')
