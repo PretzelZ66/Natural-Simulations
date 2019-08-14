@@ -44,16 +44,20 @@ average_genome = []
 
 #facts
 generation = 0
+deaths = 0
+births = 0
 food = 0
+fpg_cap = 10000
+
 temperature = 0
 temp_rate = 0.1
 temp_increase = 1
 temp_state = True
 temp_max = 5
-deaths = 0
-births = 0
+
 mutation_rate = 1
-fpg_cap = 10000
+event_clock1 = 0
+
 Avr_M = 0
 Avr_R = 0
 Avr_T = 0
@@ -81,9 +85,19 @@ while True:
     #Random Events
     event_check = random.randint(0, 150)
     if event_check == 0:
-        print('LOW LEVEL RADIATION HAZARD')
-        mutation_rate = random.randint(2, 4)
-        event_clock1 = random.randint(1, 10)
+        event = random.randint(1, 3)
+        if event == 1:
+            print('LOW LEVEL RADIATION HAZARD')
+            mutation_rate += random.randint(2, 4)
+            event_clock1 += random.randint(1, 10)
+        if event == 2:
+            print('MEDIUM LEVEL RADIATION HAZARD')
+            mutation_rate += random.randint(4, 6)
+            event_clock1 += random.randint(5, 15)
+        if event == 3:
+            print('HIGH LEVEL RADIATION HAZARD')
+            mutation_rate += random.randint(6, 8)
+            event_clock1 += random.randint(10, 20)
     
     #Temperature Change
     if temp_state == True:
@@ -304,8 +318,8 @@ while True:
     #Event clocks
     if event_clock1 > 0:
         event_clock1 -= 1
-    if event_clock1 == 0:
-        mutation_rate = 1
+        if event_clock1 == 0:
+            mutation_rate = 1
     
     #Facts
     print('')
