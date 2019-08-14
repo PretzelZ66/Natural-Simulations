@@ -52,6 +52,7 @@ temp_state = True
 temp_max = 5
 deaths = 0
 births = 0
+mutation_rate = 1
 fpg_cap = 10000
 Avr_M = 0
 Avr_R = 0
@@ -77,6 +78,13 @@ while True:
     pause(1)
     random.shuffle(population)
 
+    #Random Events
+    event_check = random.randint(0, 150)
+    if event_check == 0:
+        print('LOW LEVEL RADIATION HAZARD')
+        mutation_rate = random.randint(2, 4)
+        event_clock1 = random.randint(1, 10)
+    
     #Temperature Change
     if temp_state == True:
         temperature += temp_rate
@@ -234,7 +242,7 @@ while True:
                     baby.append(breedable2[i])
             
             mutationyesno = random.randint(1, 1000)
-            if mutationyesno <= baby[5]:
+            if mutationyesno <= baby[5]*mutation_rate:
                 stat = random.randint(0, 6)
                 change = random.randint(0,1)
                 if change == 0:
@@ -292,7 +300,12 @@ while True:
     offspring = []
     breedable = []
     generation += 1
-
+    
+    #Event clocks
+    if event_clock1 > 0:
+        event_clock1 -= 1
+    if event_clock1 == 0:
+        mutation_rate = 1
     
     #Facts
     print('')
@@ -315,4 +328,5 @@ while True:
     deaths = 0
     if len(population) == 0:
         print("EVERY THING DIED")
+        time.sleep(20)
         break
