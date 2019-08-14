@@ -44,8 +44,10 @@ average_genome = []
 generation = 0
 food = 0
 temperature = 0
-temp_cycle = 1
+temp_rate = 0.1
+temp_increase = 1
 temp_state = True
+temp_max = 5
 deaths = 0
 births = 0
 fpg_cap = 10000
@@ -75,10 +77,21 @@ while True:
 
     #Temperature Change
     if temp_state == True:
-        temperature += 0.1
+        temperature += temp_rate
     elif temp_state == False:
-        temperature -= -0.1
+        temperature -= temp_rate
 
+    if temperature >= temp_max or temperature <= 0-temp_max:
+        if temp_state == True:
+            temperature = temp_max
+            temp_state = False
+        else:
+            temperature = 0-temp_max
+            temp_state = True
+        temp_max += random.randint(1, 2)
+        temp_increase += 1
+        temp_rate = 0.1 * temp_increase
+        
     #Temperature Deaths
     temp_check = 0
     for i in range(len(population)):
@@ -87,8 +100,6 @@ while True:
             deaths += 1
             temp_check -= 1
         temp_check += 1
-        
-        
     
     #food changing
     food += random.randint(5000, fpg_cap)
@@ -280,7 +291,6 @@ while True:
     breedable = []
     generation += 1
 
-    
     
     #Facts
     print('')
