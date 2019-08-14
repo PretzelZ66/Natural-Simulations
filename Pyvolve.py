@@ -82,11 +82,21 @@ line('~~SIMULATION PARAMETERS HAVE BEEN SET~~')
 while True:
     pause(1)
     random.shuffle(population)
-
+    
+     #food changing
+    food += random.randint(5000, fpg_cap)
+    foodupdown = random.randint(-1, 1)
+    if foodupdown == -1:
+        fpg_cap -= 1000
+        if fpg_cap < 5000:
+            fpg_cap = 5000
+    elif foodupdown == 1:
+        fpg_cap += 1000
+    
     #Random Events
     event_check = random.randint(0, event_chance_cap)
     if event_check == 0:
-        event = random.randint(1, 5)
+        event = random.randint(1, 6)
         if event == 1:
             print('LOW LEVEL RADIATION HAZARD')
             mutation_rate += random.randint(2, 4)
@@ -116,9 +126,12 @@ while True:
                     death_check -= 1
                     deaths += 1
                 death_check += 1
-            
-            
-    
+        elif event == 6:
+            print('FAMINE')
+            food -= random.randint(3000, 6000)
+            if food =< 0:
+                food = 0
+        
     #Temperature Change
     if temp_state == True:
         temperature += temp_rate
@@ -144,16 +157,6 @@ while True:
             deaths += 1
             temp_check -= 1
         temp_check += 1
-    
-    #food changing
-    food += random.randint(5000, fpg_cap)
-    foodupdown = random.randint(-1, 1)
-    if foodupdown == -1:
-        fpg_cap -= 1000
-        if fpg_cap < 5000:
-            fpg_cap = 5000
-    elif foodupdown == 1:
-        fpg_cap += 1000
     
     #Fatigue down
     fatigue_check = 0
