@@ -129,7 +129,7 @@ while True:
         elif event == 6:
             print('FAMINE')
             food -= random.randint(3000, 9000)
-            if food =< 0:
+            if food <= 0:
                 food = 0
         
     #Temperature Change
