@@ -117,7 +117,7 @@ while True:
         elif event == 5:
             print('VOLCANIC ERRUPTION')
             temp_max += random.randit(20, 30)
-            temperature += randint(5, 10)
+            temperature += random.randint(5, 10)
             death_check = 0
             while len(population) != death_check:
                 death_number = random.randint(1, 100)
@@ -128,7 +128,7 @@ while True:
                 death_check += 1
         elif event == 6:
             print('FAMINE')
-            food -= random.randint(3000, 6000)
+            food -= random.randint(3000, 9000)
             if food =< 0:
                 food = 0
         
