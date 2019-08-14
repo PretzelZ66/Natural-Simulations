@@ -55,7 +55,6 @@ temp_increase = 1
 temp_state = True
 temp_max = 5
 
-event_chance_cap = 150
 mutation_rate = 1
 event_clock1 = 0
 
@@ -71,12 +70,13 @@ pause(1)
 line('Loaded')
 print('')
 line('~~CUSTOMISABLE SIMULATION PARAMETERS~~')
-line('Would you like the genomes of the population to be displayed every 10 generations?')
-user_response = input('YES/NO >>> ')
-if user_response.lower() == 'yes':
-    display_pop_genome = True
+line('Would you like a High (3), Medium (2), or Low (1) event chance?')
+event_chance = int(input('1/2/3 >>> '))
+if event_chance > 0 and event_chance <= 3:
+    event_chance_cap = event_chance
 else:
-    display_pop_genome = False
+    event_chance_cap = 2
+event_chance_cap = event_chance_cap * 50
 line('~~SIMULATION PARAMETERS HAVE BEEN SET~~')
 
 while True:
