@@ -303,7 +303,7 @@ while True:
     if len(population) != 0:
         print(f"Net Growth: {(births - deaths)/len(population)}%")
     else:
-        print("Net Growth: -1%")
+        print("Net Growth: -100%")
     print(f'Food: {food}')
     print(f'Temperature: {temperature}')
     print(f'Average Genome: {average_genome}')
@@ -314,4 +314,5 @@ while True:
     births = 0
     deaths = 0
     if len(population) == 0:
+        print("EVERY THING DIED")
         break
