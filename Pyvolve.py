@@ -70,7 +70,7 @@ pause(1)
 line('Loaded')
 print('')
 line('~~CUSTOMISABLE SIMULATION PARAMETERS~~')
-line('Would you like a High (3), Medium (2), or Low (1) event chance?')
+line('Would you like a Low (3), Medium (2), or High (1) event chance?')
 event_chance = int(input('1/2/3 >>> '))
 if event_chance > 0 and event_chance <= 3:
     event_chance_cap = event_chance
@@ -86,7 +86,7 @@ while True:
     #Random Events
     event_check = random.randint(0, event_chance_cap)
     if event_check == 0:
-        event = random.randint(1, 4)
+        event = random.randint(1, 5)
         if event == 1:
             print('LOW LEVEL RADIATION HAZARD')
             mutation_rate += random.randint(2, 4)
@@ -104,6 +104,20 @@ while True:
             event_chance_cap -= 1
             if event_chance_cap < 0:
                 event_chance_cap -= random.randint(1, 5)
+        elif event == 5:
+            print('VOLCANIC ERRUPTION')
+            temp_max += random.randit(20, 30)
+            temperature += randint(5, 10)
+            death_check = 0
+            while len(population) != death_check:
+                death_number = random.randint(1, 100)
+                if death_number == 13:
+                    del population[death_check]
+                    death_check -= 1
+                    deaths += 1
+                death_check += 1
+            
+            
     
     #Temperature Change
     if temp_state == True:
@@ -341,13 +355,7 @@ while True:
     print(f'Temperature: {temperature}')
     print(f'Average Genome: {average_genome}')
     print('---------------------------------------------')
-    if display_pop_genome == True:
-        if generation %10 == 0:
-            line(population)
-    births = 0
-    deaths = 0
     if len(population) == 0:
         print("EVERY THING DIED")
         time.sleep(20)
         break
-
