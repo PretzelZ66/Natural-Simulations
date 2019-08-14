@@ -43,6 +43,9 @@ average_genome = []
 #facts
 generation = 0
 food = 0
+temperature = 0
+temp_cycle = 1
+temp_state = True
 deaths = 0
 births = 0
 fpg_cap = 10000
@@ -69,6 +72,23 @@ line('~~SIMULATION PARAMETERS HAVE BEEN SET~~')
 while True:
     pause(1)
     random.shuffle(population)
+
+    #Temperature Change
+    if temp_state == True:
+        temperature += 0.1
+    elif temp_state == False:
+        temperature -= -0.1
+
+    #Temperature Deaths
+    temp_check = 0
+    for i in range(len(population)):
+        if population[temp_check][2] < temperature or 0-population[temp_check][2] > temperature:
+            del population[temp_check]
+            deaths += 1
+            temp_check -= 1
+        temp_check += 1
+        
+        
     
     #food changing
     food += random.randint(5000, fpg_cap)
@@ -259,6 +279,8 @@ while True:
     offspring = []
     breedable = []
     generation += 1
+
+    
     
     #Facts
     print('')
@@ -268,6 +290,7 @@ while True:
     print(f"Births: {births}")
     print(f"Net Growth: {(births - deaths)/len(population)}%")
     print(f'Food: {food}')
+    print(f'Temperature: {temperature}')
     print(f'Average Genome: {average_genome}')
     print('---------------------------------------------')
     if display_pop_genome == True:
