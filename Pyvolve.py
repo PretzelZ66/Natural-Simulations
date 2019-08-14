@@ -55,6 +55,7 @@ temp_increase = 1
 temp_state = True
 temp_max = 5
 
+event_chance_cap = 150
 mutation_rate = 1
 event_clock1 = 0
 
@@ -83,21 +84,26 @@ while True:
     random.shuffle(population)
 
     #Random Events
-    event_check = random.randint(0, 150)
+    event_check = random.randint(0, event_chance_cap)
     if event_check == 0:
-        event = random.randint(1, 3)
+        event = random.randint(1, 4)
         if event == 1:
             print('LOW LEVEL RADIATION HAZARD')
             mutation_rate += random.randint(2, 4)
             event_clock1 += random.randint(1, 10)
-        if event == 2:
+        elif event == 2:
             print('MEDIUM LEVEL RADIATION HAZARD')
             mutation_rate += random.randint(4, 6)
             event_clock1 += random.randint(5, 15)
-        if event == 3:
+        elif event == 3:
             print('HIGH LEVEL RADIATION HAZARD')
             mutation_rate += random.randint(6, 8)
             event_clock1 += random.randint(10, 20)
+        elif event == 4:
+            print('ENVIRONMENT STABILITY LOWERED')
+            event_chance_cap -= 1
+            if event_chance_cap < 0:
+                event_chance_cap == 0
     
     #Temperature Change
     if temp_state == True:
