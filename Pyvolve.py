@@ -103,7 +103,7 @@ while True:
             print('ENVIRONMENT STABILITY LOWERED')
             event_chance_cap -= 1
             if event_chance_cap < 0:
-                event_chance_cap == 0
+                event_chance_cap -= random.randint(1, 5)
     
     #Temperature Change
     if temp_state == True:
@@ -350,3 +350,4 @@ while True:
         print("EVERY THING DIED")
         time.sleep(20)
         break
+
