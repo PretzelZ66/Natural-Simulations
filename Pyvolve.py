@@ -14,12 +14,14 @@ def line(string):
 def Avr_Gen(The_list, gene_type):
     Gene_check = 0
     Average = 0
-    while len(The_list) != Gene_check:
-        addition = The_list[Gene_check][gene_type]
-        Average += addition
-        Gene_check += 1
-    Average = Average // len(The_list)
-    return(Average)
+    if len(The_list) != 0:
+        while len(The_list) != Gene_check:
+            addition = The_list[Gene_check][gene_type]
+            Average += addition
+            Gene_check += 1
+        Average = Average // len(The_list)
+        return(Average)
+    return(0)
 
 M = 1
 R = 2
@@ -298,7 +300,10 @@ while True:
     print(f"Population: {len(population)}")
     print(f"Deaths: {deaths}")
     print(f"Births: {births}")
-    print(f"Net Growth: {(births - deaths)/len(population)}%")
+    if len(population) != 0:
+        print(f"Net Growth: {(births - deaths)/len(population)}%")
+    else:
+        print("Net Growth: -1%")
     print(f'Food: {food}')
     print(f'Temperature: {temperature}')
     print(f'Average Genome: {average_genome}')
@@ -308,3 +313,5 @@ while True:
             line(population)
     births = 0
     deaths = 0
+    if len(population) == 0:
+        break
