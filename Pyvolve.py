@@ -48,6 +48,7 @@ deaths = 0
 births = 0
 food = 0
 fpg_cap = 10000
+breedable_count = 0
 
 temperature = 0
 temp_rate = 0.1
@@ -93,7 +94,18 @@ while True:
             fpg_cap = 5000
     elif foodupdown == 1:
         fpg_cap += 1000
-    
+
+    #Breedable assignment
+        breedable_check = 0
+        for i in range(len(population)):
+            if population[breedable_check][6] <= population[breedable_check][7] and population[breedable_check][9] == 0:
+                breedable = True
+                population[breedable_check].append(breedable)
+                breedable_count += 1
+            else:
+                breedable = False
+                population[breedable_check].append(breedable)
+            breedable_check += 1
     #Random Events
     event_check = random.randint(0, event_chance_cap)
     if event_check == 0:
@@ -120,15 +132,17 @@ while True:
             event_clock1 += random.randint(10, 20)
         elif event == 4:
             print('VOLCANIC ERRUPTION')
-            temp_max += random.randit(10, 20)
-            temperature += random.randint(5, 10)
+            temp_max += random.randit(5, 10)
+            temperature += random.randint(1, 5)
             death_check = 0
             while len(population) != death_check:
                 death_number = random.randint(1, 100)
                 if death_number == 13:
-                    del population[death_check]
-                    death_check -= 1
-                    deaths += 1
+                    if population[death_check][11] == True and breedable_count > 2:
+                        del population[death_check]
+                        death_check -= 1
+                        deaths += 1
+                        breedable_count -= 1
                 death_check += 1
         elif event == 5:
             print('FAMINE')
@@ -339,8 +353,8 @@ while True:
     
     #Resets
     offspring = []
-    breedable = []
     generation += 1
+    breedable_count = 0
     
     #Event clocks
     if event_clock1 > 0:
@@ -349,7 +363,7 @@ while True:
             mutation_rate = 1
     
     #Facts
-    print('')
+    print('---------------------------------------------')
     print(f'Generation: {generation}')
     print(f"Population: {len(population)}")
     print(f"Deaths: {deaths}")
