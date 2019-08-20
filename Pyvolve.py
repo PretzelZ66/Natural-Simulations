@@ -56,6 +56,7 @@ temp_state = True
 temp_max = 5
 
 mutation_rate = 1
+events =  0
 event_clock1 = 0
 
 Avr_M = 0
@@ -96,8 +97,16 @@ while True:
     #Random Events
     event_check = random.randint(0, event_chance_cap)
     if event_check == 0:
-        event = random.randint(1, 6)
-        if event == 1:
+        event = random.randint(events, 6)
+        if event == 0:
+            print('ENVIRONMENT STABILITY LOWERED')
+            event_chance_cap -= 1
+            if event_chance_cap < 0:
+                event_chance_cap -= random.randint(1, 5)
+            if event_chance_cap > 0:
+                events = 1
+                
+        elif event == 1:
             print('LOW LEVEL RADIATION HAZARD')
             mutation_rate += random.randint(2, 4)
             event_clock1 += random.randint(1, 10)
@@ -110,13 +119,8 @@ while True:
             mutation_rate += random.randint(6, 8)
             event_clock1 += random.randint(10, 20)
         elif event == 4:
-            print('ENVIRONMENT STABILITY LOWERED')
-            event_chance_cap -= 1
-            if event_chance_cap < 0:
-                event_chance_cap -= random.randint(1, 5)
-        elif event == 5:
             print('VOLCANIC ERRUPTION')
-            temp_max += random.randit(20, 30)
+            temp_max += random.randit(10, 20)
             temperature += random.randint(5, 10)
             death_check = 0
             while len(population) != death_check:
@@ -126,7 +130,7 @@ while True:
                     death_check -= 1
                     deaths += 1
                 death_check += 1
-        elif event == 6:
+        elif event == 5:
             print('FAMINE')
             food -= random.randint(3000, 9000)
             if food <= 0:
