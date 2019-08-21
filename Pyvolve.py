@@ -32,15 +32,13 @@ S = 27
 B = 1
 age = 0
 fed = 0
-fatigue = 0 
+fatigue = 0
+population = []
 b_c = 0 #birth count
-population = [[M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c], 
-              [M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c],
-              [M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c], [M, R, T, D, A, S, B, age, fed, fatigue, b_c],
-              [M, R, T, D, A, S, B, age, fed, fatigue, b_c]]
 offspring = []
 breedable = []
 average_genome = []
+pop_template = [M, R, T, D, A, S, B, age, fed, fatigue, b_c]
 
 #facts
 generation = 0
@@ -79,6 +77,15 @@ if event_chance > 0 and event_chance <= 3:
 else:
     event_chance_cap = 2
 event_chance_cap = event_chance_cap * 50
+
+line('What would you like the starting population to be?')
+start_pop = int(input('>>> '))
+if start_pop <= 1:
+    start_pop = 2
+pop_gen_check = 0
+while pop_gen_check != start_pop:
+    population.append(pop_template)
+    pop_gen_check += 1
 line('~~SIMULATION PARAMETERS HAVE BEEN SET~~')
 
 while True:
@@ -96,16 +103,17 @@ while True:
         fpg_cap += 1000
 
     #Breedable assignment
-        breedable_check = 0
-        for i in range(len(population)):
-            if population[breedable_check][6] <= population[breedable_check][7] and population[breedable_check][9] == 0:
-                breedable = True
-                population[breedable_check].append(breedable)
-                breedable_count += 1
-            else:
-                breedable = False
-                population[breedable_check].append(breedable)
-            breedable_check += 1
+    breedable_check = 0
+    for i in range(len(population)):
+        if population[breedable_check][6] <= population[breedable_check][7] and population[breedable_check][9] == 0:
+            breedable = True
+            population[breedable_check].append(breedable)
+            breedable_count += 1
+        else:
+            breedable = False
+            population[breedable_check].append(breedable)
+        breedable_check += 1
+        
     #Random Events
     event_check = random.randint(0, event_chance_cap)
     if event_check == 0:
@@ -132,7 +140,7 @@ while True:
             event_clock1 += random.randint(10, 20)
         elif event == 4:
             print('VOLCANIC ERRUPTION')
-            temp_max += random.randit(5, 10)
+            temp_max += random.randint(5, 10)
             temperature += random.randint(1, 5)
             death_check = 0
             while len(population) != death_check:
