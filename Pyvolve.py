@@ -54,7 +54,6 @@ temp_increase = 1
 temp_state = True
 temp_max = 5
 
-mutation_rate = 1
 events =  0
 event_clock1 = 0
 
@@ -88,6 +87,14 @@ while pop_gen_check != start_pop:
     population.append(pop_template)
     pop_gen_check += 1
 
+line('What would you like the default radiation level to be?')
+rad_param = int(input('>>> '))
+mutation_rate = rad_param
+default_mutation_rate = mutation_rate
+
+line('What would you like the mutation severity to be?')
+mutation_severity = int(input('>>> '))
+
 line('~~SIMULATION PARAMETERS HAVE BEEN SET~~')
 
 while True:
@@ -109,6 +116,7 @@ while True:
     for i in range(len(population)):
         if len(population[breedable_check]) == 12:
             del population[breedable_check][11]
+        
         if population[breedable_check][6] <= population[breedable_check][7] and population[breedable_check][9] == 0:
             breedable = True
             population[breedable_check].append(breedable)
@@ -313,9 +321,9 @@ while True:
                 stat = random.randint(0, 6)
                 change = random.randint(0,1)
                 if change == 0:
-                    baby[stat] += 1
+                    baby[stat] += random.randint(1, mutation_severity)
                 elif change == 1:
-                    baby[stat] -= 1
+                    baby[stat] -= random.randint(1, mutation_severity)
                 
                 if baby[4] == 0:
                     baby[4] = 1
@@ -372,7 +380,7 @@ while True:
     if event_clock1 > 0:
         event_clock1 -= 1
         if event_clock1 == 0:
-            mutation_rate = 1
+            mutation_rate = default_mutation_rate
     
     #Facts
     print('---------------------------------------------')
