@@ -70,6 +70,7 @@ pause(1)
 line('Loaded')
 print('')
 line('~~CUSTOMISABLE SIMULATION PARAMETERS~~')
+
 line('Would you like a Low (3), Medium (2), or High (1) event chance?')
 event_chance = int(input('1/2/3 >>> '))
 if event_chance > 0 and event_chance <= 3:
@@ -86,6 +87,7 @@ pop_gen_check = 0
 while pop_gen_check != start_pop:
     population.append(pop_template)
     pop_gen_check += 1
+
 line('~~SIMULATION PARAMETERS HAVE BEEN SET~~')
 
 while True:
@@ -105,6 +107,8 @@ while True:
     #Breedable assignment
     breedable_check = 0
     for i in range(len(population)):
+        if len(population[breedable_check]) == 12:
+            del population[breedable_check][11]
         if population[breedable_check][6] <= population[breedable_check][7] and population[breedable_check][9] == 0:
             breedable = True
             population[breedable_check].append(breedable)
@@ -250,7 +254,7 @@ while True:
         while breedable1 == []:
             if Completed >= len(population):
                 break
-            if population[Completed][7] >= population[Completed][6] and population[Completed][9] == 0:
+            if population[Completed][11] == True:
                 breedable1 = population[Completed]
                 Past_completed = Completed
             Completed += 1
@@ -270,7 +274,7 @@ while True:
         while breedable2 == []:
             if Completed >= len(population):
                 break
-            if population[Completed][7] >= population[Completed][6] and population[Completed][9] == 0:
+            if  population[Completed][11] == True:
                 breedable2 = population[Completed]
                 break
             Completed += 1
