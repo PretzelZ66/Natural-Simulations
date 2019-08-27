@@ -242,18 +242,6 @@ while True:
             deaths += 1
             death_check -= 1
         death_check += 1
-
-    #Get averages
-    print('    Getting average genes')
-    Avr_M = Avr_Gen(population, 0)
-    Avr_R = Avr_Gen(population, 1)
-    Avr_T = Avr_Gen(population, 2)
-    Avr_D = Avr_Gen(population, 3)
-    Avr_A = Avr_Gen(population, 4)
-    Avr_S = Avr_Gen(population, 5)
-    Avr_B = Avr_Gen(population, 6)
-
-    average_genome = [Avr_M, Avr_R, Avr_T, Avr_D, Avr_A, Avr_S, Avr_B]
     
     #Generation of offspring
     print('    Generation of offspring')
@@ -277,16 +265,6 @@ while True:
                 breedable1 = population[Completed]
                 Past_completed = Completed
             Completed += 1
-        
-        if Completed >= (done_percentage * 0.25) and p_3 == 0:
-            print("   25%")
-            p_3 = 1
-        elif Completed >= (done_percentage * 0.50) and p_2 == 0:
-            print("   50%")
-            p_2 = 1
-        elif Completed >= (done_percentage * 0.75) and p_1 == 0:
-            print("   75%")
-            p_1 = 1
         if Completed >= len(population):
                 break
         
@@ -295,18 +273,9 @@ while True:
                 break
             if  population[Completed][11] == True:
                 breedable2 = population[Completed]
+                
                 break
             Completed += 1
-        
-        if Completed >= (done_percentage * 0.25) and p_3 == 0:
-            print("   25%")
-            p_3 = 1
-        elif Completed >= (done_percentage * 0.50) and p_2 == 0:
-            print("   50%")
-            p_2 = 1
-        elif Completed >= (done_percentage * 0.75) and p_1 == 0:
-            print("   75%")
-            p_1 = 1
         if Completed >= len(population):
             break
         
@@ -378,6 +347,18 @@ while True:
     #Offspring added to population
     print('    Offspring added to population')
     population.extend(offspring)
+    
+    #Get averages
+    print('    Getting average genes')
+    Avr_M = Avr_Gen(population, 0)
+    Avr_R = Avr_Gen(population, 1)
+    Avr_T = Avr_Gen(population, 2)
+    Avr_D = Avr_Gen(population, 3)
+    Avr_A = Avr_Gen(population, 4)
+    Avr_S = Avr_Gen(population, 5)
+    Avr_B = Avr_Gen(population, 6)
+
+    average_genome = [Avr_M, Avr_R, Avr_T, Avr_D, Avr_A, Avr_S, Avr_B]
 
     #Dead creatures converted to food.
     print('    Dead creatures converted to food')
