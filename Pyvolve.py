@@ -102,6 +102,7 @@ while True:
     random.shuffle(population)
     
      #food changing
+    print('    Changing Food')
     food += random.randint(5000, fpg_cap)
     foodupdown = random.randint(-1, 1)
     if foodupdown == -1:
@@ -112,6 +113,7 @@ while True:
         fpg_cap += 1000
 
     #Breedable assignment
+    print('    Sorting Breedables from Unbreedables')
     breedable_check = 0
     for i in range(len(population)):
         if len(population[breedable_check]) == 12:
@@ -127,6 +129,7 @@ while True:
         breedable_check += 1
         
     #Random Events
+    print('    Random event check')
     event_check = random.randint(0, event_chance_cap)
     if event_check == 0:
         event = random.randint(events, 6)
@@ -171,6 +174,7 @@ while True:
                 food = 0
         
     #Temperature Change
+    print('    Temperature Change')
     if temp_state == True:
         temperature += temp_rate
     elif temp_state == False:
@@ -188,6 +192,7 @@ while True:
         temp_rate = 0.1 * temp_increase
         
     #Temperature Deaths
+    print('    Temperature Deaths')
     temp_check = 0
     for i in range(len(population)):
         if population[temp_check][2] < temperature or 0-population[temp_check][2] > temperature:
@@ -197,6 +202,7 @@ while True:
         temp_check += 1
     
     #Fatigue down
+    print('    Fatigue Down')
     fatigue_check = 0
     for x in range(len(population)):
         if population[fatigue_check][9] > 0:
@@ -204,6 +210,7 @@ while True:
         fatigue_check += 1
     
     #feeding
+    print('    Feeding')
     food_check = 0
     for x in range(len(population)):
         if population[food_check][8] == 0 and food > 0:
@@ -212,6 +219,7 @@ while True:
         food_check += 1
     
     #Starvation check
+    print('    Starvation Check')
     starve_check = 0
     for x in range(len(population)):
         if population[starve_check][8] == 0:
@@ -221,6 +229,7 @@ while True:
         starve_check += 1
     
     #Deaths
+    print('    Deaths')
     death_check = 0
     while len(population) != death_check:
         death_number = random.randint(1, 100)
@@ -235,6 +244,7 @@ while True:
         death_check += 1
 
     #Get averages
+    print('    Getting average genes')
     Avr_M = Avr_Gen(population, 0)
     Avr_R = Avr_Gen(population, 1)
     Avr_T = Avr_Gen(population, 2)
@@ -246,6 +256,7 @@ while True:
     average_genome = [Avr_M, Avr_R, Avr_T, Avr_D, Avr_A, Avr_S, Avr_B]
     
     #Generation of offspring
+    print('    Generation of offspring')
     Completed = 0
     Past_completed = 0
     breedable1 = []
@@ -315,7 +326,7 @@ while True:
                     baby.append(breedable1[i])
                 else:
                     baby.append(breedable2[i])
-            
+                    
             mutationyesno = random.randint(1, 1000)
             if mutationyesno <= baby[5]*mutation_rate:
                 stat = random.randint(0, 6)
@@ -351,38 +362,45 @@ while True:
         Completed += 1
         
     #aging of population
+    print('    Aging of population')
     age_check = 0
     while len(population) != age_check:
         population[age_check][7] += 1
         age_check += 1
     
     #Hunger check
+    print('    Hunger check')
     hungry_check = 0
     for x in range(len(population)):
         population[hungry_check][8] -= 1
         hungry_check += 1
     
     #Offspring added to population
+    print('    Offspring added to population')
     population.extend(offspring)
 
     #Dead creatures converted to food.
+    print('    Dead creatures converted to food')
     for x in range(deaths):
         bonus_food = random.randint(0, 19)
         if bonus_food == 0:
             food += 1
     
     #Resets
+    print('    Resets')
     offspring = []
     generation += 1
     breedable_count = 0
     
     #Event clocks
+    print('    Event Clocks')
     if event_clock1 > 0:
         event_clock1 -= 1
         if event_clock1 == 0:
             mutation_rate = default_mutation_rate
     
     #Facts
+    print('    Facts')
     print('---------------------------------------------')
     print(f'Generation: {generation}')
     print(f"Population: {len(population)}")
