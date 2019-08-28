@@ -250,10 +250,6 @@ while True:
     breedable1 = []
     breedable2 = []
     
-    done_percentage = len(population)
-    p_1 = 0
-    p_2 = 0
-    p_3 = 0
     
     while len(population) != Completed:
         breedable1 = []
@@ -305,9 +301,11 @@ while True:
                 elif change == 1:
                     baby[stat] -= random.randint(1, mutation_severity)
                 
-                if baby[4] == 0:
+                if baby[1] <= 0:
+                    baby[1] = 1
+                if baby[4] <= 0:
                     baby[4] = 1
-                if baby[6] == -1:
+                if baby[6] <= -1:
                     baby[6] = 0
             baby.append(age)
             baby.append(fed)
@@ -381,7 +379,6 @@ while True:
             mutation_rate = default_mutation_rate
     
     #Facts
-    print('    Facts')
     print('---------------------------------------------')
     print(f'Generation: {generation}')
     print(f"Population: {len(population)}")
