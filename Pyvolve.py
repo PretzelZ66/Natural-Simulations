@@ -1,4 +1,4 @@
-#pyvolve 1.2.0
+#pyvolve 1.2.1.6
 import time, random
 print('LOADING')
 
@@ -86,25 +86,35 @@ print('')
 line('~~CUSTOMISABLE SIMULATION PARAMETERS~~')
 
 line('WHAT WOULD YOU LIKE TO CALL THE RESULTS FILE?')
-file_name = input('>>> ')
-file_name_raw = file_name + '_raw.txt'
-file_name += '.txt'
-with open(file_name, 'x') as file:
-    file.close()
-    
-with open(file_name_raw, 'x') as file:
-    file.close()
+while True:
+    try:
+        file_name = input('>>> ')
+        file_name_raw = file_name + '_raw.txt'
+        file_name += '.txt'
+        with open(file_name, 'x') as file:
+            file.close()
+            
+        with open(file_name_raw, 'x') as file:
+            file.close()
+        break
+    except FileExistsError:
+        print("File Taken. Try again")
 
 line('''WHAT PRESET WOULD YOU LIKE TO USE? DEFAULT(0), NUCLEAR PLAYGROUND(1),
-THERMONUCLEAR PLAYGROUND(2), VIRUS PLAYGROUND(3), EVENT MAYHEM(4), CUSTOM(OTHER)''')
-preset_type = int(input('>>> '))
+   THERMONUCLEAR PLAYGROUND(2), VIRUS PLAYGROUND(3), EVENT MAYHEM(4), CUSTOM(OTHER_NUM)''')
+while True:
+    try:
+        preset_type = int(input('>>> '))
+        break
+    except ValueError:
+        print("Invalid number. Try again")
 
 if preset_type == 0:
     #default
     start_pop = 50
     event_chance_cap = 100
     mutation_rate = 1
-    default_mutation_rate = mutation_rate
+    default_mutation_rate = 1
     mutation_severity = 1
     infect_counter = 1
     secrets = False
@@ -130,11 +140,11 @@ elif preset_type == 2:
     secrets = False
 
 elif preset_type == 3:
-    #virus playground
+    #RapiVirus
     start_pop = 50
     event_chance_cap = 100
     mutation_rate = 1
-    default_mutation_rate = mutation_rate
+    default_mutation_rate = 1
     mutation_severity = 1
     infect_counter = 50
     secrets = False
@@ -151,36 +161,63 @@ elif preset_type == 4:
     start_pop = 50
     event_chance_cap = 0
     mutation_rate = 1
-    default_mutation_rate = mutation_rate
+    default_mutation_rate = 1
     mutation_severity = 1
     infect_counter = 50
     secrets = True
     
 else:
     line('WHAT WOULD YOU LIKE THE STARTING POPULATION TO BE?')
-    start_pop = int(input('>>> '))
-    if start_pop <= 1:
-        start_pop = 2
+    while True:
+        try:
+            start_pop = int(input('>>> '))
+            if start_pop <= 1:
+                start_pop = 2
+            break
+        except ValueError:
+            print("Invalid number. Try again")    
 
     line('WOULD YOU LIKE A LOW (3), MEDIUM (2), or HIGH (1) EVENT CHANCE?')
-    event_chance = int(input('1/2/3 >>> '))
-    if event_chance > 0 and event_chance <= 3:
-        event_chance_cap = event_chance
-    else:
-        event_chance_cap = 2
-    event_chance_cap = event_chance_cap * 50
+    while True:
+        try:
+            event_chance = int(input('1/2/3 >>> '))
+            if event_chance > 0 and event_chance <= 3:
+                event_chance_cap = event_chance
+            else:
+                event_chance_cap = 2
+            event_chance_cap = event_chance_cap * 50
+            break
+        except ValueError:
+            print("Invalid number. Try again")  
     
     line('WHAT WOULD YOU LIKE THE DEFAULT RADIATION LEVEL TO BE?')
-    mutation_rate = int(input('>>> '))
-    default_mutation_rate = mutation_rate
+    while True:
+        try:
+            mutation_rate = int(input('>>> '))
+            default_mutation_rate = mutation_rate
+            break
+        except ValueError:
+            print("Invalid number. Try again")
 
     line('WHAT WOULD YOU LIKE THE MUTATION SEVERITY TO BE?')
-    mutation_severity = int(input('>>> '))
+    while True:
+        try:
+            mutation_severity = int(input('>>> '))
+            break
+        except ValueError:
+            print("Invalid number. Try again")
+    
 
     line('HOW MANY CREATURES SHOULD START OUT WITH THE VIRUS?')
-    infect_counter = int(input('>>> '))
+    while True:
+        try:
+            infect_counter = int(input('>>> '))
+            break
+        except ValueError:
+            print("Invalid number. Try again")
     
     secrets = False
+    
 pop_gen_check = 0
 while pop_gen_check != start_pop:
     if infect_counter != Cassowary.infected:
@@ -196,6 +233,8 @@ while pop_gen_check != start_pop:
 Cassowary.food += Cassowary.infected * 10
 
 line('~~SIMULATION PARAMETERS HAVE BEEN SET~~')
+
+print('---------------------------------------------')
 
 while True:
     deaths = 0
@@ -306,10 +345,17 @@ while True:
                 fpg_cap -= 1000
                 if fpg_cap < 5000:
                     fpg_cap = 5000
-                    
+
         elif event == 6:
-            event_done = 'PLAGUE'
-            plague_check = 0
+		    if secrets == True:
+				easter_egg = random.randint(0, 100)
+			    if easter_egg = 19:
+				    event_done = 'NEW CORONAVIRUS STRAIN'
+			    else:
+				    event_done = 'PLAGUE'
+			else:
+				event_done = 'PLAGUE'
+				plague_check = 0
             while len(population) != plague_check:
                 death_number = random.randint(0, 100)
                 if death_number == 0:
@@ -332,8 +378,8 @@ while True:
 
             
         if secrets is True:
-            event = random.randint(0, 10000000000000000000000000000000000000000000000000000000000000000000000)
-            if event == 8294398729834827345982:
+            event = random.randint(1, 1000000000000000000000000000000000) #1/1 Decillion
+            if event == 679711511511111997114121:
                 event_done = 'CASSOWARY RAID'
                 death_check = 0
                 while len(population) != death_check:
@@ -347,36 +393,39 @@ while True:
         
     #temperature change
     print('    Temperature Change')
-    naturilisation = random.randint(0, 100)
-    temp_boost = random.randint(1, 10)
-    temp_boost /= 10
-    temp_rate += temp_boost
     
-    if temp_state is True:
-        if  naturilisation != 0:
-            temperature += temp_rate
-            
-        else:
-            temperature -= temp_rate
-            
-    elif temp_state is False:
-        if  naturilisation != 0:
-            temperature -= temp_rate
-            
-        else:
-            temperature += temp_rate
+    temp_rate = 0.1 * temp_increase
+    temp_boost = (random.randint(-5, 5) * 0.1)
+    temp_rate += temp_boost
+    naturilisation = random.randint(0, 50)
 
-    if temperature >= temp_max or temperature <= 0-temp_max:
-        if temp_state is True:
-            temperature = temp_max
-            temp_state = False
+        #Temp Change
+    if temp_state == True:
+        if naturilisation == 0:
+            temperature -= temp_rate
+            print("na")
         else:
-            temperature = 0-temp_max
+            temperature += temp_rate
+    elif temp_state == False:
+        if naturilisation == 0:
+            temperature += temp_rate
+            print("na")
+        else:
+            temperature -= temp_rate
+    
+        #Temp Max Change
+    if temperature >= temp_max:
+        if temp_state == True:
+            temp_state = False
+            temperature = temp_max
+            temp_max += (random.randint(5, 20) * 0.1)
+            temp_increase += 1
+    elif temperature <= (0 - temp_max):
+        if temp_state == False:
             temp_state = True
-        temp_max += random.randint(1, 2)
-        temp_increase += 1
-        temp_rate = 0.1 * temp_increase
-    temp_rate -= temp_boost
+            temperature = (0 - temp_max)
+            temp_max += (random.randint(5, 20) * 0.1)
+            temp_increase += 1
     
     #temperature deaths
     print('    Temperature Deaths')
@@ -570,7 +619,7 @@ while True:
         elif Cassowary_decider == 4:
             Cassowary.metabolism += change
         
-    #get averages
+    #Obtain Average Genome
     print('    Obtaining Average Genome')
     avr_m = avr_gen(population, 0)
     avr_r = avr_gen(population, 1)
@@ -611,54 +660,54 @@ while True:
         met_clock -= 1
     
     #virus check
-    print('    Diagnosing Virus')
+    print('    Diagnosing Coronavirus')
     Cassowary.infected = 0
     for i in range(len(population)):
         if population[i][11] is True:
             Cassowary.infected += 1
     
-    #resets
-    print('    Techincal Resets')
+    #technical resets
+    print('    Technical Resets')
     offspring = []
     generation += 1
     breedable_count = 0
     
     #facts
     print('---------------------------------------------')
-    print(f'generation: {generation}')
-    print(f"population: {len(population)}")
-    print(f"deaths: {deaths}")
-    print(f"births: {births}")
+    print(f'Generation: {generation}')
+    print(f"Population: {len(population)}")
+    print(f"Deaths: {deaths}")
+    print(f"Births: {births}")
     if len(population) != 0:
-        print(f"net growth: {(births - deaths)/len(population)}%")
+        print(f"Net growth: {(births - deaths)/len(population)}%")
     else:
-        print("net growth: -100%")
-    print(f'food: {food}')
-    print(f'temperature: {temperature}')
-    print(f'virus infected: {Cassowary.infected}')
-    print(f'average genome: {average_genome}')
-    print(f'virus genome: {Cassowary_genome}')
+        print("Net growth: -100%")
+    print(f'Food: {food}')
+    print(f'Temperature: {temperature}')
+    print(f'Virus Infected: {Cassowary.infected}')
+    print(f'Average Genome: {average_genome}')
+    print(f'Virus Genome: {Cassowary_genome}')
     print('---------------------------------------------')
     
     with open(file_name, 'a') as output:
-        output.write(f'generation: {generation}\n')
-        output.write(f'population: {len(population)}\n')
-        output.write(f"deaths: {deaths}\n")
-        output.write(f'births: {births}\n')
+        output.write(f'Generation: {generation}\n')
+        output.write(f'Population: {len(population)}\n')
+        output.write(f"Deaths: {deaths}\n")
+        output.write(f'Births: {births}\n')
         if len(population) != 0:
-            output.write(f'net growth: {(births - deaths)/len(population)}%\n')
+            output.write(f'Net growth: {(births - deaths)/len(population)}%\n')
         else:
-            output.write("net growth: -100%\n")
-        output.write(f'food: {food}\n')
-        output.write(f'temperature: {temperature}\n')
-        output.write(f'infected: {Cassowary.infected}\n')
-        output.write(f'average genome: {average_genome}\n')
-        output.write(f'virus genome: {Cassowary_genome}\n')
+            output.write("Net growth: -100%\n")
+        output.write(f'Food: {food}\n')
+        output.write(f'Temperature: {temperature}\n')
+        output.write(f'Infected: {Cassowary.infected}\n')
+        output.write(f'Average Genome: {average_genome}\n')
+        output.write(f'Virus Genome: {Cassowary_genome}\n')
         if event_done != "":
-            output.write(f'event: {event_done}\n')
+            output.write(f'Event: {event_done}\n')
         output.write('---------------------------------------------\n')
         if len(population) == 0:
-            output.write("every thing died\n")
+            output.write("Every Thing Died\n")
         output.close()
     
     with open(file_name_raw, 'a') as output:
